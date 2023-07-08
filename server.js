@@ -4,9 +4,20 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 5000; // Set a default port if PORT environment variable is not defined
-app.use(cors());
+const port = process.env.PORT; // Set a default port if PORT environment variable is not defined
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 // Connect to MongoDB
 const mongodbConnection = () => {
@@ -69,7 +80,9 @@ app.delete("/api/notes/:id", async (req, res) => {
 
 // Handle requests to the root URL
 app.get("/", (req, res) => {
-  res.send("Welcome to the Notes API.");
+  res.send(
+    `<h1>Site is working. Click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`
+  );
 });
 
 // Start the server
