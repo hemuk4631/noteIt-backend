@@ -4,7 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT; // Set a default port if PORT environment variable is not defined
+const port = process.env.PORT || 5000; // Set a default port if PORT environment variable is not defined
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
